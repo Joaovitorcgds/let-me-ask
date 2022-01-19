@@ -31,7 +31,6 @@ export function NewRoom(){
     navigate(`/rooms/${firebaseRoom.key}`)
   }
 
-
   return(
     <div id="page-auth">
       <aside>
@@ -58,7 +57,6 @@ export function NewRoom(){
           <p>Quer entrar em uma sala já existente? <Link to= '/'>clique aqui</Link></p>
         </div>
       </main>
-    
     </div>
   )
 }
