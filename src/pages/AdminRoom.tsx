@@ -1,14 +1,15 @@
 import "../styles/room.scss"
 import logoImg from "../assets/images/logo.svg"
+import deleteImg from "../assets/images/delete.svg"
 import { Button } from "../components/Button"
 
-import { FormEvent, useState } from "react"
+
 import { useParams } from "react-router-dom"
 import { RoomCode } from "../components/RoomCode"
-import { useAuth } from "../hooks/useAuth"
-import { database } from "../services/firebase"
+// import { useAuth } from "../hooks/useAuth"
 import { Questions } from "../components/Questions"
 import { useRoom } from "../hooks/useRoom"
+import { database } from "../services/firebase"
 
 
 type RoomParams = {
@@ -20,7 +21,13 @@ export function AdminRoom(){
   const params = useParams() as RoomParams;
   const roomId = params.id;
 
-  const {title, questions} = useRoom(roomId)
+  const {title, questions} = useRoom(roomId);
+
+  async function handleDeleteQuestion(questionId:string) {
+    if (window.confirm("Tem certeza que deseja apagar esta pergunta")){
+      await database.ref(`/rooms/${roomId}/questions/${questionId}`).remove()
+    }
+  }
 
 
   return(
@@ -43,7 +50,13 @@ export function AdminRoom(){
 
         {questions.map(question => {
           return(
-            <Questions key={question.id} content={question.content} author={question.author}/>
+            <Questions key={question.id} content={question.content} author={question.author}>
+              <button 
+              type="button"
+              onClick={() => handleDeleteQuestion(question.id)}>
+                <img src={deleteImg} alt="deletar question" />
+              </button>
+            </Questions>
           )
         })}
       </main>
