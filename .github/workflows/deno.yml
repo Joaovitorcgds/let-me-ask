@@ -1,0 +1,48 @@
+# This workflow uses actions that are not certified by GitHub.
+# They are provided by a third-party and are governed by
+# separate terms of service, privacy policy, and support
+# documentation.
+
+# This workflow will install Deno then run Deno lint and test.
+# For more information see: https://github.com/denoland/setup-deno
+
+name: Greeting on variable day
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+    
+env:
+  REACT_APP_API_KEY: "AIzaSyAOk73eYkd9P0LwPKO3TvTxMkqrRc0YutQ"
+  REACT_APP_AUTH_DOMAIN: "letmeask-f1429.firebaseapp.com"
+  REACT_APP_DATABASE_URL: "https://letmeask-f1429-default-rtdb.firebaseio.com"
+  REACT_APP_PROJECT_ID: "letmeask-f1429"
+  REACT_APP_STORAGE_BUCKET: "letmeask-f1429.appspot.com"
+  REACT_APP_MESSAGING_SENDER_ID: "195017689312"
+  REACT_APP_APP_ID: "1:195017689312:web:35b61fd0234f033d99a885"
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Setup repo
+        uses: actions/checkout@v2
+
+      - name: Setup Deno
+        # uses: denoland/setup-deno@v1
+        uses: denoland/setup-deno@004814556e37c54a2f6e31384c9e18e983317366
+        with:
+          deno-version: v1.x
+
+      # Uncomment this step to verify the use of 'deno fmt' on each commit.
+      # - name: Verify formatting
+      #   run: deno fmt --check
+
+      - name: Run linter
+        run: deno lint
+
+      - name: Run tests
+        run: deno test -A --unstable
